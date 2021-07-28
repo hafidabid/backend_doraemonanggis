@@ -28,6 +28,9 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
+    
+    - name: Pindahkan file dot env
+      run: sudo cp ~/rahasia/.env.abi.tes-asisten .env
 
     - name: Coba Deploy ke Docker gan
       run: |
