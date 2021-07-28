@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [14.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -28,3 +28,11 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
+
+    - name: Coba Deploy ke Docker gan
+      run: |
+        sudo docker stop $(sudo docker ps -a -q)
+        sudo docker build -t be_labpro_abi .
+    
+    - name: Jalankan Docker ke server
+      run : sudo docker run -d -p 6900:6900 be_labpro_abi
