@@ -34,7 +34,7 @@ jobs:
 
     - name: Coba Deploy ke Docker gan
       run: |
-        sudo docker stop $(sudo docker ps -filter name="eager_shannon" -q)
+        sudo docker stop $(sudo docker ps -f name="eager_shannon" -q)
         sudo docker build -t be_labpro_abi .
     
     - name: Jalankan Docker ke server
