@@ -3,13 +3,12 @@ version: '3.7'
 services: 
     webapp-server:
         build:
-            context: -
+            context: .
             dockerfile: Dockerfile
         image: assoy-server-img
         container_name: assoy-express
         volumes: 
-            - .:/usr/src/app
-            - /usr/src/app/node_modules
+            - .:/gambar
         ports: 
             - "6900:6900"
         env_file: .env
