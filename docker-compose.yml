@@ -8,7 +8,11 @@ services:
         image: assoy-server-img
         container_name: assoy-server-img
         volumes: 
-            - .:/gambar
+            - type: volume
+              source: mydata
+              target: /gambar
+              volume:
+                  nocopy: false
         ports: 
             - "6900:6900"
         env_file: .env
@@ -17,3 +21,6 @@ services:
             - MONGO_DB=$MONGO_DB
             - MONGO_USN=$MONGO_USN
             - MONGO_PASS=$MONGO_PASS
+
+volumes:
+    mydata:
