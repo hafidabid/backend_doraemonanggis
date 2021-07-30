@@ -34,7 +34,7 @@ jobs:
 
     - name: Coba Deploy dan jalankan ke Docker gan
       run: |
-        sudo docker stop $(sudo docker ps -f "expose=6900" -q)
-        sudo docker build -t be_labpro_abi .
-        sudo docker run -d -p 6900:6900 be_labpro_abi
+        sudo docker-compose pull
+        sudo docker-compose build
+        sudo docker-compose up -d --remove-orphans
 
