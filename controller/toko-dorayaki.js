@@ -379,7 +379,7 @@ const toko_dorayaki_patchitem = async (req,res,next) => {
             return hasil.save()
         }).then(hasil => {
             if(!hasil){
-                const e = new Error("terjadi kesalahan pada saving sebelumnya")
+                const e = new Error("terjadi kesalahan pada saving sebelumnya gan")
                 e.errorStatus = 404
                 next(e)
             }
