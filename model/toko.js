@@ -20,7 +20,7 @@ const Toko = new Skema({
     },
     dorayaki : {
         type : Array,
-        default : {}
+        default : []
     },
 
 },{

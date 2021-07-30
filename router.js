@@ -1,7 +1,11 @@
 const express = require("express")
 const { dorayaki_get, dorayaki_post, dorayaki_put, dorayaki_delete, dorayaki_get_specific } = require("./controller/dorayaki")
 const { autentikasi, register, login } = require("./controller/member")
-const { toko_dorayaki_get, toko_dorayaki_get_specific, toko_dorayaki_post, toko_dorayaki_put, toko_dorayaki_delete } = require("./controller/toko-dorayaki")
+const {
+    toko_dorayaki_get, toko_dorayaki_get_specific, toko_dorayaki_post,
+    toko_dorayaki_put, toko_dorayaki_delete, toko_dorayaki_patchitem,
+    toko_dorayaki_putitem, toko_dorayaki_postitem, toko_dorayaki_getitem } = require("./controller/toko-dorayaki")
+
 var bodyParser = require("body-parser")
 const path = require("path")
 const jsonParser = bodyParser.json()
@@ -45,6 +49,10 @@ router.get("/toko/:id", toko_dorayaki_get_specific)
 router.post("/toko",jsonParser, toko_dorayaki_post)
 router.put("/toko/:id",jsonParser, toko_dorayaki_put)
 router.delete("/toko/:id", toko_dorayaki_delete)
+router.get("/toko/:id/dorayaki", toko_dorayaki_getitem)
+router.post("/toko/:id/dorayaki",jsonParser,toko_dorayaki_postitem)
+router.put("/toko/:id/dorayaki/:id_dorayaki", jsonParser, toko_dorayaki_putitem)
+router.patch("/toko/:id/dorayaki/:id_dorayaki", jsonParser, toko_dorayaki_patchitem)
 
 
 router.get("/cok",(req,res,next)=>{
