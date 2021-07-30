@@ -237,7 +237,7 @@ const toko_dorayaki_postitem = (req,res, next) => {
         }).then(hasil => {
             hasil.dorayaki.forEach(d=>{
                 if(d.id===id_dorayaki){
-                    const e = new Error("dorayaki udah ada disini gan, silahkan tambah kurang atau move aja")
+                    const e = new Error("dorayaki udah ada disini gan, silahkan tambah kurang atau move aja gan")
                     e.errorStatus = 400
                     next(e)
                 }
