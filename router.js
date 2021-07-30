@@ -51,8 +51,8 @@ router.put("/toko/:id",jsonParser, toko_dorayaki_put)
 router.delete("/toko/:id", toko_dorayaki_delete)
 router.get("/toko/:id/dorayaki", toko_dorayaki_getitem)
 router.post("/toko/:id/dorayaki",jsonParser,toko_dorayaki_postitem)
-router.put("/toko/:id/dorayaki/:id_dorayaki", jsonParser, toko_dorayaki_putitem)
-router.patch("/toko/:id/dorayaki/:id_dorayaki", jsonParser, toko_dorayaki_patchitem)
+router.put("/toko/:id/dorayaki/:idd", jsonParser, toko_dorayaki_putitem)
+router.patch("/toko/:id/dorayaki/:idd", jsonParser, toko_dorayaki_patchitem)
 
 
 router.get("/cok",(req,res,next)=>{

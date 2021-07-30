@@ -198,7 +198,8 @@ const toko_dorayaki_getitem = (req, res, next) => {
             let i
             for(i=0;i<hasil.dorayaki.length;i++){
                 const hehe = await Dorayaki.findById(hasil.dorayaki[i].id).exec()
-                ret.push(hehe)
+                hasil.dorayaki[i].detail = hehe
+                ret.push(hasil.dorayaki[i])
             }
             res.status(200).json({
                 message : "berhasil get dorayaki di id = "+idToko,
@@ -225,20 +226,24 @@ const toko_dorayaki_postitem = (req,res, next) => {
                 const e = new Error("id toko tidak ditemukan")
                 e.errorStatus = 404
                 next(e)
+            }else {
+                return Dorayaki.findById(id_dorayaki)
             }
-            return Dorayaki.findById(id_dorayaki)
         }).then(hasil => {
             if(!hasil){
                 const e = new Error("id dorayaki tidak ditemukan")
                 e.errorStatus = 404
                 next(e)
-            }
+            }else{
                 return TokoDorayaki.findById(idToko)
+            }
         }).then(hasil => {
+            let flag = true
             hasil.dorayaki.forEach(d=>{
                 if(d.id===id_dorayaki){
                     const e = new Error("dorayaki udah ada disini gan, silahkan tambah kurang atau move aja gan")
                     e.errorStatus = 400
+                    flag = false
                     next(e)
                 }
             })
@@ -246,7 +251,9 @@ const toko_dorayaki_postitem = (req,res, next) => {
                 id : id_dorayaki,
                 stok : stok ? stok : 0
             })
-            return hasil.save()
+            if(flag){
+                return hasil.save()
+            }
         }).then(hasil => {
             res.status(200).json({
                 message : "berhasil tambah dorayaki baru dengan id "+id_dorayaki+" di toko dengan id: "+idToko,
@@ -258,7 +265,7 @@ const toko_dorayaki_postitem = (req,res, next) => {
 const toko_dorayaki_putitem = (req,res,next) => {
     const {stok} = req.body
     const idToko = req.params.id
-    const idDorayaki = req.params.id_dorayaki
+    const idDorayaki = req.params.idd
     if(idToko==null){
         throw{
             status : 404,
@@ -273,51 +280,54 @@ const toko_dorayaki_putitem = (req,res,next) => {
             data : {}
         }
     }
+
+
     TokoDorayaki.findById(idToko)
         .then(hasil=>{
             if(!hasil){
                 const e = new Error("id toko tidak ditemukan")
                 e.errorStatus = 404
                 next(e)
-            }
-            return Dorayaki.findById(id_dorayaki)
-        }).then(hasil => {
-        if(!hasil){
-            const e = new Error("id dorayaki tidak ditemukan")
-            e.errorStatus = 404
-            next(e)
-        }
-        return TokoDorayaki.findById(idToko)
-    }).then(hasil => {
-        let i, idx
-        for(i=0;i<hasil.dorayaki.length;i++){
-            if(stok > 0){
-                if(hasil.dorayaki[i].id === idDorayaki){
-                    hasil.dorayaki[i].stok = stok
-                    break
-                }
             }else{
-                if(hasil.dorayaki[i].id === idDorayaki){
-                    idx = i
-                    break
+                return Dorayaki.findById(idDorayaki)
+            }
+        }).then(hasil => {
+            if(!hasil){
+                const e = new Error("id dorayaki tidak ditemukan")
+                e.errorStatus = 404
+                next(e)
+            }else{
+                return TokoDorayaki.findById(idToko)
+            }
+        }).then(hasil => {
+            let i, idx
+            let arr = []
+            for(i=0;i<hasil.dorayaki.length;i++){
+                if(stok > 0){
+                    if(hasil.dorayaki[i].id === idDorayaki){
+                        hasil.dorayaki[i].stok = stok
+                    }
+                    arr.push(hasil.dorayaki[i])
+                }else{
+                    if(hasil.dorayaki[i].id === idDorayaki){
+                        idx = i
+                    }else{arr.push(hasil.dorayaki[i])}
                 }
             }
-        }
-        if(stok <= 0){
-            hasil.dorayaki.splice(idx,1)
-        }
-        return hasil.save()
-    }).then(hasil => {
-        res.status(200).json({
-            message : "berhasil edit dorayaki baru dengan id "+id_dorayaki+" di toko dengan id: "+idToko,
-            data : hasil
-        })
-    }).catch(err=>next(err))
+            hasil.dorayaki = []
+            hasil.dorayaki = arr
+            return hasil.save()
+        }).then(hasil => {
+            res.status(200).json({
+                message : "berhasil edit dorayaki dengan id "+idDorayaki+" di toko dengan id: "+idToko,
+                data : hasil
+            })
+        }).catch(err=>next(err))
 }
 
 const toko_dorayaki_patchitem = async (req,res,next) => {
     const idToko = req.params.id
-    const idDorayaki = req.params.id_dorayaki
+    const idDorayaki = req.params.idd
     const {toko_id_dest, stokTransfer} = req.body
     if(idToko==null || toko_id_dest==null){
         throw{
