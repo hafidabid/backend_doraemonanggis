@@ -34,7 +34,6 @@ jobs:
 
     - name: Coba Deploy dan jalankan ke Docker gan
       run: |
-        sudo docker stop $(sudo docker ps -f name="mbohlah_cuk" -q)
         sudo docker build -t be_labpro_abi .
         sudo docker run --name mbohlah_cuk -d -p 6900:6900 be_labpro_abi
 
