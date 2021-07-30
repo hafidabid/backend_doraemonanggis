@@ -6,7 +6,7 @@ services:
             context: .
             dockerfile: Dockerfile
         image: assoy-server-img
-        container_name: assoy-express
+        container_name: assoy-server-img
         volumes: 
             - .:/gambar
         ports: 
