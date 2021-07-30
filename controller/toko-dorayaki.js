@@ -367,7 +367,7 @@ const toko_dorayaki_patchitem = async (req,res,next) => {
             let i,idx=-1
             for(i=0;i<hasil.dorayaki.length;i++){
                 if(hasil.dorayaki[i].id===idDorayaki && hasil.dorayaki[i].stok-stokTransfer >=0){
-                    hasil.dorayaki[i].stok -= stokTransfer
+                    hasil.dorayaki[i].stok = hasil.dorayaki[i].stok - stokTransfer
                     if(hasil.dorayaki[i].stok<=0){
                         idx = i
                     }
